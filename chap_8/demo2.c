@@ -25,7 +25,7 @@ int main(void)
     {
         globvar++; /* modify parent's variables */
         var++;
-        exit(0); /* terminates */
+        _exit(0); /* terminates */
     }
 
     /* parent continues here */

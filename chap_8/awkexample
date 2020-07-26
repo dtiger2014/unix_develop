@@ -1,0 +1,10 @@
+#!/usr/bin/awk -f
+# Note: on Solaris, use nawk instead
+BEGIN {
+    for (i = 0; i < ARGC; i++)
+        printf "ARGV[%d] = %s\n", i, ARGV[i]
+    exit
+}
+
+# 上面的程序类等小雨下面语句
+# /bin/awk -f ./awkexample file1 FILENAME2 f3

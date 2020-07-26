@@ -1,3 +1,1 @@
-#!/bin/bash
-
-echo "test no .sh"
+#!/root/linux/unix_develop/chap_8/echoarg FanFan

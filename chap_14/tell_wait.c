@@ -15,12 +15,12 @@ static void sig_usr(int signo) /* one signal handleer for SIGUSR1 and SIGUSR2 */
 
 void TELL_WAIT(void)
 {
-    if (signl(SIGUSR1, sig_usr) == SIG_ERR)
+    if (signal(SIGUSR1, sig_usr) == SIG_ERR)
     {
         perror("signal(SIGUSR1) error");
         exit(1);
     }
-    if (signl(SIGUSR2, sig_usr) == SIG_ERR)
+    if (signal(SIGUSR2, sig_usr) == SIG_ERR)
     {
         perror("signal(SIGUSR2) error");
         exit(1);

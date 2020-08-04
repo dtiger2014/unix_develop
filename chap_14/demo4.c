@@ -32,7 +32,7 @@ int main(void)
     /*
     Create a file and write two bytes to it.
     */
-    if ((fd = create("templock", FILE_MODE)) < 0)
+    if ((fd = creat("templock", FILE_MODE)) < 0)
     {
         perror("create error");
         exit(1);

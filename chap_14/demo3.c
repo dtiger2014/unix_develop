@@ -4,10 +4,10 @@
 可设置为宏
 */
 
-#define is_read_lockable(fd, offset, whence, len)\
-    (lock_test((fd), F_RDLCK, (offset), (whence), (len)) == 0) 
+#define is_read_lockable(fd, offset, whence, len) \
+    (lock_test((fd), F_RDLCK, (offset), (whence), (len)) == 0)
 
-#define is_write_lockable(fd, offset, whence, len)\
+#define is_write_lockable(fd, offset, whence, len) \
     (lock_test((fd), F_WRLCK, (offset), (whence), (len)) == 0)
 
 #include <fcntl.h>
@@ -22,10 +22,7 @@ pid_t lock_test(int fd, int type, off_t offset, int whence, off_t len)
     lock.l_len = len;       /* #bytes (0 means to EOF) */
 
     if (fcntl(fd, F_GETLK, &lock) < 0)
-    {
-        perror("fcntl error");
-        exit(1);
-    }
+        err_sys("fcntl error");
 
     if (lock.l_type == F_UNLCK)
         return (0); /* false, region isn't locked by another proc */

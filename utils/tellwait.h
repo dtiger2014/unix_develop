@@ -1,9 +1,4 @@
-/*
-父子进程可用来实现同步的例程
-*/
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
+#include "myhead.h"
 
 static volatile sig_atomic_t sigflag; /* set nonzero by sig handler */
 static sigset_t newmask, oldmask, zeromask;
@@ -16,15 +11,10 @@ static void sig_usr(int signo) /* one signal handleer for SIGUSR1 and SIGUSR2 */
 void TELL_WAIT(void)
 {
     if (signal(SIGUSR1, sig_usr) == SIG_ERR)
-    {
-        perror("signal(SIGUSR1) error");
-        exit(1);
-    }
+        err_sys("signal(SIGUSR1) error");
     if (signal(SIGUSR2, sig_usr) == SIG_ERR)
-    {
-        perror("signal(SIGUSR2) error");
-        exit(1);
-    }
+        err_sys("signal(SIGUSR2) error");
+
     sigemptyset(&zeromask);
     sigemptyset(&newmask);
     sigaddset(&newmask, SIGUSR1);
@@ -32,10 +22,7 @@ void TELL_WAIT(void)
 
     /* Block SIGUSR1 ans SIGUSR2, and save current signal mask */
     if (sigprocmask(SIG_BLOCK, &newmask, &oldmask) < 0)
-    {
-        perror("SIG_BLOCK error");
-        exit(1);
-    }
+        err_sys("SIG_BLOCK error");
 }
 
 void TELL_PARENT(pid_t pid)
@@ -51,10 +38,7 @@ void WAIT_PARENT(void)
 
     /* Reset signal mask to original value */
     if (sigprocmask(SIG_SETMASK, &oldmask, NULL) < 0)
-    {
-        perror("SIG_SETMASK error");
-        exit(1);
-    }
+        err_sys("SIG_SETMASK error");
 }
 
 void TELL_CHILD(pid_t pid)
@@ -70,8 +54,5 @@ void WAIT_CHILD(void)
 
     /* Reset signal mask to original value */
     if (sigprocmask(SIG_SETMASK, &oldmask, NULL) < 0)
-    {
-        perror("SIG_SETMASK error");
-        exit(1);
-    }
+        err_sys("SIG_SETMASK error");
 }

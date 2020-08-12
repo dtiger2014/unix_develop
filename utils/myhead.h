@@ -42,6 +42,7 @@
  * Prototypes for my functions.
  */
 int lock_reg(int, int, int, off_t, int, off_t); /* {Prog lockreg} */
+int set_cloexec(int);                           /* {Prog setfd} */
 
 #define read_lock(fd, offset, whence, len) \
     lock_reg((fd), F_SETLK, F_RDLCK, (offset), (whence), (len))

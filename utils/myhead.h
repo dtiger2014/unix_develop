@@ -7,12 +7,18 @@
 
 #define _POSIX_C_SOURCE 200809L
 
+#if defined(SOLARIS) /* Solaris 10 */
+#define _XOPEN_SOURCE 600
+#else
+#define _XOPEN_SOURCE 700
+#endif
+
 #include <sys/types.h> /* some systems still require this */
 #include <sys/stat.h>
-// #include <sys/termios.h> /* for winsize */
-// #if defined(MACOS) || !defined(TIOCGWINSZ)
-// #include <sys/ioctl.h>
-// #endif
+#include <sys/termios.h> /* for winsize */
+#if defined(MACOS) || !defined(TIOCGWINSZ)
+#include <sys/ioctl.h>
+#endif
 
 #include <stdio.h>  /* for convenience */
 #include <stdlib.h> /* for convenience */
@@ -43,6 +49,17 @@
  */
 int lock_reg(int, int, int, off_t, int, off_t); /* {Prog lockreg} */
 int set_cloexec(int);                           /* {Prog setfd} */
+
+int recv_fd(int, ssize_t (*func)(int, const void *, size_t)); /* {Prog recvfd_sockets} */
+int send_fd(int, int);                                        /* {Prog sendfd_sockets} */
+int send_err(int, int, const char *);                         /* {Prog senderr} */
+
+ssize_t readn(int, void *, size_t);        /* {Prog readn_writen} */
+ssize_t writen(int, const void *, size_t); /* {Prog readn_writen} */
+
+int serv_listen(const char *); /* {Prog servlisten_sockets} */
+int serv_accept(int, uid_t *); /* {Prog servaccept_sockets} */
+int cli_conn(const char *);    /* {Prog cliconn_sockets} */
 
 #define read_lock(fd, offset, whence, len) \
     lock_reg((fd), F_SETLK, F_RDLCK, (offset), (whence), (len))

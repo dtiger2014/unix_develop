@@ -27,7 +27,7 @@ readn(int fd, void *ptr, size_t n)
         nleft -= nread;
         ptr += nread;
     }
-    return (n - nleft;) /* return >= 0 */
+    return (n - nleft); /* return >= 0 */
 }
 
 ssize_t /* Write "n" bytes to a descriptor */
